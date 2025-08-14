@@ -2,19 +2,19 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-12">
-    <h1 class="text-2xl font-bold text-center mb-10 text-black dark:text-white">Layanan Publik</h1>
+    <h1 class="text-2xl font-bold text-center mb-10 text-black dark:text-white">
+        {{ __('layanan.title') }}
+    </h1>
 
-    <!-- Grid Layanan -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         @php
             $layanan = [
-                // Ganti SVG ke IMG sesuai referensi
-                ['img'=>'layanankependudukan.png','title'=>'Layanan Kependudukan','desc'=>'Pelayanan Administrasi Kependudukan di Kabupaten Jepara','bg'=>'bg-white dark:bg-gray-800'],
-                ['img'=>'layananperizinan.png','title'=>'Layanan Perizinan','desc'=>'Pelayanan Perizinan Mandiri yang Tidak Ada di OSS','bg'=>'bg-white dark:bg-gray-800'],
-                ['img'=>'layananak1.png','title'=>'Layanan AK1','desc'=>'Pelayanan Surat AK1 Bagi Pencari Kerja Secara Mandiri','bg'=>'bg-white dark:bg-gray-800'],
-                ['img'=>'layananopendata.png','title'=>'Layanan Open Data','desc'=>'Portal Berbagai Dataset di Kabupaten Jepara','bg'=>'bg-white dark:bg-gray-800'],
-                ['img'=>'layanandatastatistik.png','title'=>'Layanan Data Statistik','desc'=>'Portal Berbagai Data Statistik di Kabupaten Jepara','bg'=>'bg-white dark:bg-gray-800'],
-                ['img'=>'layanankependudukan.png','title'=>'Layanan Pengaduan','desc'=>'Portal Pengaduan Masyarakat di Kabupaten Jepara','bg'=>'bg-white dark:bg-gray-800'],
+                ['img'=>'layanankependudukan.png','title'=>__('layanan.kependudukan.title'),'desc'=>__('layanan.kependudukan.desc'),'bg'=>'bg-white dark:bg-gray-800'],
+                ['img'=>'layananperizinan.png','title'=>__('layanan.perizinan.title'),'desc'=>__('layanan.perizinan.desc'),'bg'=>'bg-white dark:bg-gray-800'],
+                ['img'=>'layananak1.png','title'=>__('layanan.ak1.title'),'desc'=>__('layanan.ak1.desc'),'bg'=>'bg-white dark:bg-gray-800'],
+                ['img'=>'layananopendata.png','title'=>__('layanan.opendata.title'),'desc'=>__('layanan.opendata.desc'),'bg'=>'bg-white dark:bg-gray-800'],
+                ['img'=>'layanandatastatistik.png','title'=>__('layanan.datastatistik.title'),'desc'=>__('layanan.datastatistik.desc'),'bg'=>'bg-white dark:bg-gray-800'],
+                ['img'=>'layanankependudukan.png','title'=>__('layanan.pengaduan.title'),'desc'=>__('layanan.pengaduan.desc'),'bg'=>'bg-white dark:bg-gray-800'],
             ];
         @endphp
 
@@ -29,36 +29,4 @@
         @endforeach
     </div>
 </div>
-
-<!-- Floating Button Pengaduan -->
-<div class="fixed bottom-6 right-6 flex flex-col gap-4 z-50">
-    <!-- Wadul Bupati -->
-    <a href="https://wadul.jepara.go.id/" target="_blank" title="Wadul Bupati"
-       class="relative bg-blue-500 hover:bg-blue-600 w-20 h-20 rounded-full shadow-2xl flex items-center justify-center transition-transform duration-300 hover:scale-110 animate-bounce-slow group">
-        <img src="{{ asset('images/wadulbupati.png') }}" alt="Wadul Bupati" class="h-10 w-10">
-        <span class="absolute left-[-140%] top-1/2 -translate-y-1/2 bg-gray-800 text-white text-sm font-medium px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-            Wadul Bupati
-        </span>
-    </a>
-
-    <!-- Lapor -->
-    <a href="https://laporgub.jatengprov.go.id/" target="_blank" title="Lapor"
-       class="relative bg-red-500 hover:bg-red-600 w-20 h-20 rounded-full shadow-2xl flex items-center justify-center transition-transform duration-300 hover:scale-110 animate-bounce-slow group">
-        <img src="{{ asset('images/lapor.png') }}" alt="Lapor" class="h-10 w-10">
-        <span class="absolute left-[-140%] top-1/2 -translate-y-1/2 bg-gray-800 text-white text-sm font-medium px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-            Lapor
-        </span>
-    </a>
-</div>
-
-<!-- Tailwind Custom Animation -->
-<style>
-@keyframes bounce-slow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-.animate-bounce-slow {
-  animation: bounce-slow 2s infinite;
-}
-</style>
 @endsection

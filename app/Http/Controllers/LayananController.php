@@ -8,6 +8,7 @@ class LayananController extends Controller
 {
     public function index()
     {
-        return view('layanan'); // atau sesuaikan dengan view kamu
+        // Grid statis yang kamu buat di blade
+        return view('layanan');
     }
 }
