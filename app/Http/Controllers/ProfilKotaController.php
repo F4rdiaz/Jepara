@@ -10,21 +10,21 @@ class ProfilKotaController extends Controller
     {
         // Bisa diarahkan ke halaman daftar menu profil kota
         // atau langsung ke salah satu halaman seperti sambutan
-        return view('profil-kota.index');
+        return view('sambutan');
     }
 
     public function sambutan()
     {
-        return view('profil-kota.sambutan');
+        return view('sambutan');
     }
 
     public function sejarah()
     {
-        return view('profil-kota.sejarah');
+        return view('sejarah');
     }
 
     public function visimisi()
     {
-        return view('profil-kota.visimisi');
+        return view('visimisi');
     }
 }

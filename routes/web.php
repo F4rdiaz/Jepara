@@ -10,10 +10,16 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfilKotaController;
 use App\Http\Controllers\InformasiPublikController;
 
+
 // =======================
 // Halaman Depan (Publik)
 // =======================
 Route::get('/', [HomeController::class, 'index'])->name('home');
+// Halaman Depan
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Pencarian
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 // Berita
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');

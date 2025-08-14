@@ -17,168 +17,227 @@
 
 <body class="min-h-screen flex flex-col overflow-x-hidden bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-    <!-- Navbar -->
-    <header class="fixed top-0 left-0 w-full z-50">
-        <nav class="backdrop-blur-lg bg-white/30 dark:bg-gray-800/30 border-b border-white/20 dark:border-gray-700/20 shadow-sm">
-            <div class="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-3">
+  <!-- Navbar -->
+<header class="fixed top-0 left-0 w-full z-50" 
+        x-data="{ mobileMenu: false, profilOpen: false, infoOpen: false }">
+    <nav class="backdrop-blur-lg bg-white/30 dark:bg-gray-800/30 border-b border-white/20 dark:border-gray-700/20 shadow-sm">
+        <div class="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-3">
+            
+            <!-- Logo -->
+            <div>
+                <img src="{{ asset('images/logo-jepara1.png') }}" alt="Logo Jepara" class="h-14 w-auto transform scale-150 origin-left">
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8 font-medium">
+                <a href="{{ route('home') }}" class="nav-link">Beranda</a>
+
+                <!-- Dropdown Profil Kota -->
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open" class="nav-link flex items-center space-x-1">
+                        <span>Profil Kota</span>
+                        <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''"
+                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div x-show="open" @click.away="open = false"
+                         x-transition
+                         class="absolute left-0 mt-2 w-52 bg-white dark:bg-gray-800 shadow-lg rounded-md overflow-hidden z-50">
+                        <a href="{{ route('profil.sambutan') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Sambutan Walikota</a>
+                        <a href="{{ route('profil.sejarah') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Sejarah Kota</a>
+                        <a href="{{ route('profil.visimisi') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Visi & Misi</a>
+                    </div>
+                </div>
+
+                <a href="{{ route('layanan') }}" class="nav-link">Layanan Publik</a>
+
+                <!-- Dropdown Informasi Publik -->
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open" class="nav-link flex items-center space-x-1">
+                        <span>Informasi Publik</span>
+                        <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div x-show="open" @click.away="open = false"
+                        x-transition
+                        class="absolute left-0 mt-2 w-52 bg-white dark:bg-gray-800 shadow-lg rounded-md overflow-hidden z-50">
+                        <a href="{{ route('berita.index') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Berita</a>
+                        <a href="{{ url('/informasi-publik/ppid') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">PPID</a>
+                        <a href="{{ url('/informasi-publik/apbd') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">APBD</a>
+                        <a href="{{ url('/informasi-publik/ipkd') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">IPKD</a>
+                        <a href="{{ url('/informasi-publik/dokumen') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Dokumen</a>
+                    </div>
+                </div>
                 
-                <!-- Logo + Title -->
-                <div class="flex items-center space-x-3">
-                    <img src="{{ asset('images/logo-jepara.png') }}" alt="Logo Jepara" class="h-10 w-auto">
-                    <span class="text-lg font-bold text-black dark:text-white">Pemerintah Kota Jepara</span>
-                </div>
 
-                <!-- Menu -->
-                <div class="hidden md:flex items-center space-x-8 font-medium">
+                <a href="{{ route('galeri') }}" class="nav-link">Galeri</a>
+            </div>
 
-                    <!-- Beranda -->
-                    <a href="{{ route('home') }}" class="nav-link">Beranda</a>
-
-                    <!-- Dropdown Profil Kota -->
-                    <div x-data="{ open: false }" class="relative">
-                        <button @click="open = !open" class="nav-link flex items-center space-x-1 focus:outline-none">
-                            <span>Profil Kota</span>
-                            <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''"
-                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-
-                        <div x-show="open" @click.away="open = false"
-                             x-transition
-                             class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md overflow-hidden z-50">
-                            <a href="{{ route('profil.sambutan') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
-                                Sambutan Walikota
-                            </a>
-                            <a href="{{ route('profil.sejarah') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
-                                Sejarah Kota
-                            </a>
-                            <a href="{{ route('profil.visimisi') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
-                                Visi & Misi
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Layanan Publik -->
-                    <a href="{{ route('layanan') }}" class="nav-link">Layanan Publik</a>
-
-                    <!-- Dropdown Informasi Publik -->
-                    <div x-data="{ open: false }" class="relative">
-                        <button @click="open = !open" class="nav-link flex items-center space-x-1 focus:outline-none">
-                            <span>Informasi Publik</span>
-                            <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''"
-                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-
-                        <div x-show="open" @click.away="open = false"
-                             x-transition
-                             class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md overflow-hidden z-50">
-                            <a href="{{ route('berita.index') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
-                                Berita
-                            </a>
-                            <a href="{{ url('/informasi-publik/ppid') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
-                                PPID
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Dokumen & Galeri -->
-                    <a href="#" class="nav-link">Dokumen</a>
-                    <a href="{{ route('galeri') }}" class="nav-link">Galeri</a>
-                </div>
-
+            <!-- Right Icons (Dark Mode + Language + Hamburger) -->
+            <div class="flex items-center gap-3">
                 <!-- Dark Mode Toggle -->
                 <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/40 dark:hover:bg-gray-600/50 transition-all">
                     <img id="theme-toggle-icon" src="{{ asset('images/matahari.png') }}" alt="Toggle Theme" class="h-6 w-6">
                 </button>
+
+                <!-- Language Switcher -->
+                <div class="relative" x-data="{ langOpen: false }">
+                    <button @click="langOpen = !langOpen" class="flex items-center space-x-1 p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <img src="{{ asset('images/indonesia') }}" alt="ID" class="h-5 w-5 rounded-full">
+                        <svg class="w-4 h-4" :class="langOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div x-show="langOpen" @click.away="langOpen = false" x-transition
+                         class="absolute right-0 mt-2 w-28 bg-white dark:bg-gray-800 shadow-lg rounded-md overflow-hidden">
+                        <a href="?lang=id" class="flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <img src="{{ asset('images/indonesia.png') }}" class="h-4 w-4 rounded-full mr-2"> Indonesia
+                        </a>
+                        <a href="?lang=en" class="flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <img src="{{ asset('images/english.png') }}" class="h-4 w-4 rounded-full mr-2"> English
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hamburger -->
+                <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
             </div>
-        </nav>
-    </header>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenu" x-transition class="md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-4 space-y-3">
+            <a href="{{ route('home') }}" class="block">Beranda</a>
+
+            <!-- Profil Kota Accordion -->
+            <div>
+                <button @click="profilOpen = !profilOpen" class="w-full text-left flex justify-between items-center py-2">
+                    <span>Profil Kota</span>
+                    <svg class="w-4 h-4" :class="profilOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div x-show="profilOpen" x-transition class="ml-4 space-y-2">
+                    <a href="{{ route('profil.sambutan') }}" class="block text-sm">Sambutan Walikota</a>
+                    <a href="{{ route('profil.sejarah') }}" class="block text-sm">Sejarah Kota</a>
+                    <a href="{{ route('profil.visimisi') }}" class="block text-sm">Visi & Misi</a>
+                </div>
+            </div>
+
+            <a href="{{ route('layanan') }}" class="block">Layanan Publik</a>
+
+            <!-- Informasi Publik Accordion -->
+            <div>
+                <button @click="infoOpen = !infoOpen" class="w-full text-left flex justify-between items-center py-2">
+                    <span>Informasi Publik</span>
+                    <svg class="w-4 h-4" :class="infoOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div x-show="infoOpen" x-transition class="ml-4 space-y-2">
+                    <a href="{{ route('berita.index') }}" class="block text-sm">Berita</a>
+                    <a href="{{ url('/informasi-publik/ppid') }}" class="block text-sm">PPID</a>
+                    <a href="{{ url('/informasi-publik/apbd') }}" class="block text-sm">APBD</a>
+                    <a href="{{ url('/informasi-publik/ipkd') }}" class="block text-sm">IPKD</a>
+                </div>
+            </div>
+
+            <a href="{{ route('galeri') }}" class="block">Galeri</a>
+        </div>
+    </nav>
+</header>
+
+
+
+
+<style>
+    .nav-link {
+        position: relative;
+        color: inherit;
+    }
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        height: 2px;
+        width: 0;
+        background-color: currentColor;
+        transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+        width: 100%;
+    }
+</style>
+
 
     <!-- Main Content -->
     <main class="flex-grow w-full pt-20">
         @yield('content')
     </main>
-  <footer class="bg-gradient-to-br from-[#4E342E] to-[#3E2723] text-white">
-    <div class="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+<footer class="bg-cover bg-center text-white" style="background-image: url('images/gambar1.png');">
+    <div class="bg-black/50">
+        <div class="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
 
-        <!-- Kontak -->
-        <div>
-            <h3 class="text-lg font-semibold mb-4 border-b-2 border-yellow-400 inline-block pb-1">
-                Kontak Pemkab Jepara
-            </h3>
-            <p class="text-sm leading-relaxed">
-                Gedung OPD Bersama<br>
-                Jl. Kartini No. 1 Jepara, Jawa Tengah<br>
-                Email:
-                <a href="mailto:diskominfo@jepara.go.id" class="text-yellow-400 hover:underline">
-                    diskominfo@jepara.go.id
-                </a><br>
-                Telepon Darurat: <span class="font-bold">112</span>
+            <!-- Kolom 1: Logo & Alamat -->
+            <div>
+                <h3 class="text-xl font-bold mb-4">Pemerintah Kabupaten Jepara</h3>
+                <div class="flex items-start gap-4">
+                    <img src="images/logo-jepara.png" alt="Logo Jepara" class="w-20 h-auto">
+                    <p class="text-sm leading-relaxed">
+                        Jl. Kartini No.1,<br>
+                        Kecamatan Jepara,<br>
+                        Kabupaten Jepara,<br>
+                        Jawa Tengah 59411<br>
+                        Telepon : 0291-591492
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- Kolom 2: Link Terkait -->
+            <div>
+                <h3 class="text-xl font-bold mb-4">Link Terkait</h3>
+                <ul class="space-y-2">
+                    <li><a href="https://spbe.jepara.go.id/" class="hover:text-yellow-300">SPBE Jepara</a></li>
+                    <li><a href="https://csirt.jepara.go.id/" class="hover:text-yellow-300">CSIRT Jepara</a></li>
+                    <li><a href="#" class="hover:text-yellow-300">Privacy and Policy</a></li>
+                    <li><a href="#" class="hover:text-yellow-300">Term and Condition</a></li>
+                </ul>
+            </div>
+
+            <!-- Kolom 3: Peta Lokasi -->
+            <div>
+                <h3 class="text-xl font-bold mb-4">Lokasi Kami</h3>
+                <div class="rounded-lg overflow-hidden border border-white/30 shadow-lg">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.2445122972566!2d110.6651681766803!3d-6.591509693396055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e711f0321765631%3A0x79188af8cb42f959!2sDinas%20Komunikasi%20dan%20Informatika%20(DISKOMINFO)%20Kabupaten%20Jepara!5e0!3m2!1sid!2sid!4v1691160400000!5m2!1sid!2sid" 
+                        width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="bg-black/40 border-t border-white/10 py-4 text-center text-sm">
+            <p>1549 – {{ date('Y') }} Kabupaten Jepara | Made by diskominfo kabupaten Jepara</p>
+
             </p>
         </div>
-
-        <!-- Aplikasi -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-4 border-b-2 border-yellow-400 inline-block pb-1">
-                        Aplikasi Resmi
-                    </h3>
-                    <a href="https://play.google.com/store/apps/details?id=com.diskominfojepara.samudra_jepara"
-                    target="_blank"
-                    class="flex items-center bg-black rounded-lg px-4 py-2 w-fit hover:scale-105 transform transition duration-300">
-                        <img src="{{ asset('images/playstore.png') }}" alt="Google Play" class="w-8 h-8 mr-3">
-                        <div class="flex flex-col leading-tight">
-                            <span class="text-xs">Dapatkan Aplikasi Kami di</span>
-                            <span class="text-lg font-semibold">Google Play</span>
-                        </div>
-                    </a>
-                </div>
-
-
-        <!-- Sosial Media -->
-        <div>
-            <h3 class="text-lg font-semibold mb-4 border-b-2 border-yellow-400 inline-block pb-1">
-                Sosial Media
-            </h3>
-            <div class="flex space-x-4">
-                <a href="https://instagram.com" target="_blank" class="hover:scale-110 transition">
-                    <img src="{{ asset('images/ig.png') }}" class="w-8">
-                </a>
-                <a href="https://facebook.com" target="_blank" class="hover:scale-110 transition">
-                    <img src="{{ asset('images/fb.png') }}" class="w-8">
-                </a>
-                <a href="https://x.com" target="_blank" class="hover:scale-110 transition">
-                    <img src="{{ asset('images/x.png') }}" class="w-8">
-                </a>
-                <a href="https://youtube.com" target="_blank" class="hover:scale-110 transition">
-                    <img src="{{ asset('images/yt.png') }}" class="w-8">
-                </a>
-            </div>
-        </div>
-
-        <!-- Peta -->
-        <div>
-            <h3 class="text-lg font-semibold mb-4 border-b-2 border-yellow-400 inline-block pb-1">
-                Peta Lokasi
-            </h3>
-            <div class="rounded-lg overflow-hidden shadow-lg border border-white/20">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.2064290544033!2d110.66471327571126!3d-6.587611093404082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70c5fcd73a0c33%3A0x97b5a5c33b95b55!2sKantor%20Bupati%20Jepara!5e0!3m2!1sid!2sid!4v1691160400000!5m2!1sid!2sid"
-                    width="100%" height="150" style="border:0;" allowfullscreen="" loading="lazy">
-                </iframe>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bottom Bar -->
-    <div class="bg-black/30 border-t border-white/10 py-4 text-center text-sm">
-        <p>&copy; {{ date('Y') }} Pemerintah Kabupaten Jepara. Semua Hak Dilindungi.</p>
     </div>
 </footer>
+
 
 
 
