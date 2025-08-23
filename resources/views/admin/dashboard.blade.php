@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-
 @section('content')
-<div class="container-fluid py-4" style="background-color: #0f172a; min-height: 100vh; color: #f8fafc;">
+<div class="container-fluid py-4 bg-slate-900 min-vh-100 text-slate-100">
     <h2 class="mb-4 fw-bold text-white">📊 Dashboard</h2>
 
     <div class="row g-4">
         <!-- Users -->
         <div class="col-md-3 col-sm-6">
-            <div class="card shadow-lg border-0" style="background: linear-gradient(135deg, #3b82f6, #1e3a8a); color: white;">
+            <div class="card shadow-lg border-0 text-white"
+                 style="background: linear-gradient(135deg, #3b82f6, #1e3a8a); transition: transform .2s;">
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h5 class="card-title fw-semibold">Users</h5>
@@ -21,7 +21,8 @@
 
         <!-- Berita -->
         <div class="col-md-3 col-sm-6">
-            <div class="card shadow-lg border-0" style="background: linear-gradient(135deg, #10b981, #065f46); color: white;">
+            <div class="card shadow-lg border-0 text-white"
+                 style="background: linear-gradient(135deg, #10b981, #065f46); transition: transform .2s;">
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h5 class="card-title fw-semibold">Berita</h5>
@@ -34,7 +35,8 @@
 
         <!-- Layanan -->
         <div class="col-md-3 col-sm-6">
-            <div class="card shadow-lg border-0" style="background: linear-gradient(135deg, #facc15, #ca8a04); color: white;">
+            <div class="card shadow-lg border-0 text-white"
+                 style="background: linear-gradient(135deg, #facc15, #ca8a04); transition: transform .2s;">
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h5 class="card-title fw-semibold">Layanan</h5>
@@ -47,7 +49,8 @@
 
         <!-- Galeri -->
         <div class="col-md-3 col-sm-6">
-            <div class="card shadow-lg border-0" style="background: linear-gradient(135deg, #ec4899, #9d174d); color: white;">
+            <div class="card shadow-lg border-0 text-white"
+                 style="background: linear-gradient(135deg, #ec4899, #9d174d); transition: transform .2s;">
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h5 class="card-title fw-semibold">Galeri</h5>
@@ -60,7 +63,7 @@
     </div>
 
     {{-- Grafik --}}
-    <div class="mt-5 p-4 rounded" style="background-color: #1e293b;">
+    <div class="mt-5 p-4 rounded shadow-lg bg-slate-800">
         <h4 class="mb-3 text-white">Grafik Aktivitas</h4>
         <canvas id="dashboardChart" height="100"></canvas>
     </div>
@@ -77,13 +80,17 @@
             datasets: [{
                 label: 'Jumlah Data',
                 data: [{{ $usersCount }}, {{ $beritaCount }}, {{ $layananCount }}, {{ $galeriCount }}],
-                backgroundColor: ['#3b82f6', '#10b981', '#facc15', '#ec4899']
+                backgroundColor: ['#3b82f6', '#10b981', '#facc15', '#ec4899'],
+                borderRadius: 6
             }]
         },
         options: {
             responsive: true,
             plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true } }
+            scales: { 
+                y: { beginAtZero: true, ticks: { color: '#f8fafc' }, grid: { color: '#334155' } },
+                x: { ticks: { color: '#f8fafc' }, grid: { color: '#334155' } }
+            }
         }
     });
 </script>

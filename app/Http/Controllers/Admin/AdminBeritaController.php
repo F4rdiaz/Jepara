@@ -3,63 +3,75 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Berita;
 use Illuminate\Http\Request;
 
 class AdminBeritaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // List semua berita
     public function index()
     {
-        //
+        $beritas = Berita::latest()->paginate(10);
+        return view('admin.berita.index', compact('beritas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Form tambah berita
     public function create()
     {
-        //
+        return view('admin.berita.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    // Simpan berita baru
+public function store(Request $request)
+{
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'isi' => 'required|string',
+        'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
+
+    $data = $request->only(['judul','isi']);
+
+    if ($request->hasFile('gambar')) {
+        $data['gambar'] = $request->file('gambar')->store('berita', 'public');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    Berita::create($data);
+
+    return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan');
+}
+
+
+    // Form edit berita
+    public function edit(Berita $beritum)
     {
-        //
+        return view('admin.berita.edit', compact('beritum'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    // Update berita
+    public function update(Request $request, Berita $beritum)
     {
-        //
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'isi' => 'required|string',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        $data = $request->all();
+
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('berita', 'public');
+        }
+
+        $beritum->update($data);
+
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Hapus berita
+    public function destroy(Berita $beritum)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $beritum->delete();
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus!');
     }
 }

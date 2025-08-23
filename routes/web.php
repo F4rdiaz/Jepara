@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +11,10 @@ use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\KontakController;
 use App\Http\Controllers\ProfilKotaController;
 use App\Http\Controllers\InformasiPublikController;
+use App\Http\Controllers\ApbdController; 
+use App\Http\Controllers\IpkdController;
+use App\Http\Controllers\DokumenController;
+
 
 // Admin Controllers
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -19,6 +23,7 @@ use App\Http\Controllers\Admin\AdminProfilController;
 use App\Http\Controllers\Admin\AdminLayananController;
 use App\Http\Controllers\Admin\AdminGaleriController;
 use App\Http\Controllers\Admin\AdminKontakController;
+use App\Http\Controllers\Admin\UserController;
 
 // =======================
 // Language Switcher Route
@@ -47,11 +52,14 @@ Route::prefix('profil')->name('profil.')->group(function () {
     Route::get('/sejarah-kota', [ProfilKotaController::class, 'sejarah'])->name('sejarah');
     Route::get('/visi-misi', [ProfilKotaController::class, 'visimisi'])->name('visimisi');
 });
-
-// Layanan Publik (untuk semua orang)
+Route::prefix('apbd')->group(function () {
+    Route::get('/', [ApbdController::class, 'index'])->name('apbd.index');
+    Route::get('/{year}', [ApbdController::class, 'show'])->name('apbd.show');
+});
+// Layanan Publik
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
 
-// Galeri dan Kontak
+// Galeri & Kontak
 Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 
@@ -60,23 +68,27 @@ Route::prefix('informasi-publik')->name('informasi-publik.')->group(function () 
     Route::get('/', [InformasiPublikController::class, 'index'])->name('index');
     Route::get('/ppid', [InformasiPublikController::class, 'ppid'])->name('ppid');
     Route::get('/laporan', [InformasiPublikController::class, 'laporan'])->name('laporan');
-    Route::get('/dokumen', [InformasiPublikController::class, 'dokumen'])->name('dokumen');
-});
+    Route::get('/apbd', [ApbdController::class, 'index'])->name('apbd'); 
+    Route::get('/apbd/{year}', [InformasiPublikController::class, 'showApbd'])->name('apbd.show');
+    Route::get('/ipkd', [IpkdController::class, 'index'])->name('ipkd.index');
+    Route::get('/ipkd/{id}', [IpkdController::class, 'show'])->name('ipkd.show');
+    Route::get('/dokumen', [DokumenController::class, 'index'])->name('dokumen.index');
+    Route::get('/dokumen/kategori/{id}', [DokumenController::class, 'kategori'])->name('dokumen.kategori');
+    });
 
 // =======================
-// Admin Area (Login Diperlukan)
+// Admin Area (Hanya Role=Admin)
 // =======================
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'verified', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    // Admin CRUD
-    Route::resource('admin-berita', AdminBeritaController::class)->except(['show']);
-    Route::resource('admin-profil', AdminProfilController::class);
-    Route::resource('admin-galeri', AdminGaleriController::class);
-    Route::resource('admin-kontak', AdminKontakController::class);
-    Route::resource('admin-layanan', AdminLayananController::class); // Admin CRUD Layanan
-
-    // Profil Admin
+    Route::resource('berita', AdminBeritaController::class)->except(['show']);
+    Route::resource('profil', AdminProfilController::class);
+    Route::resource('galeri', AdminGaleriController::class);
+    Route::resource('kontak', AdminKontakController::class);
+    Route::resource('layanan', AdminLayananController::class);
+    Route::resource('users', UserController::class); 
+    
     Route::get('/profile', [AdminProfilController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [AdminProfilController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [AdminProfilController::class, 'destroy'])->name('profile.destroy');

@@ -157,6 +157,7 @@
                     <a href="{{ url('/informasi-publik/ppid') }}" class="block text-sm">PPID</a>
                     <a href="{{ url('/informasi-publik/apbd') }}" class="block text-sm">APBD</a>
                     <a href="{{ url('/informasi-publik/ipkd') }}" class="block text-sm">IPKD</a>
+                    <a href="{{ url('/informasi-publik/dokumen') }}" class="block text-sm">Dokumen</a>
                 </div>
             </div>
 
@@ -297,35 +298,172 @@
 </body>
 
 </html>
-<!-- Floating Button Pengaduan Elegan --> 
+<!-- Floating Buttons -->
 <div class="fixed bottom-6 right-6 flex flex-col gap-4 z-50">
 
-    <!-- Wadul Bupati -->
-    <a href="https://wadul.jepara.go.id/" target="_blank" title="Wadul Bupati"
-       class="relative w-20 h-20 rounded-full flex items-center justify-center bg-white/20 backdrop-blur-md shadow-lg border border-white/30 transition-transform duration-300 hover:scale-110 hover:shadow-xl group">
-        <img src="{{ asset('images/wadulbupati.png') }}" alt="Wadul Bupati" class="h-10 w-10 transition-transform duration-500 group-hover:rotate-12">
-        <span class="absolute left-[-150%] top-1/2 -translate-y-1/2 bg-gray-900/90 text-white text-sm font-semibold px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg">
-            Wadul Bupati
-        </span>
-    </a>
+  <!-- Accessibility -->
+  <button id="toggle-toolbar" title="Accessibility"
+    class="relative w-20 h-20 rounded-full flex items-center justify-center 
+           bg-white/20 backdrop-blur-md shadow-lg border border-white/30 
+           transition-transform duration-300 hover:scale-110 hover:shadow-xl group">
+    <img src="{{ asset('images/difabel.png') }}" alt="Accessibility" 
+         class="h-10 w-10 transition-transform duration-500 group-hover:rotate-12">
+    <span class="absolute left-[-170%] top-1/2 -translate-y-1/2 
+                 bg-gray-900/90 text-white text-sm font-semibold px-3 py-1 
+                 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg">
+      Aksesibilitas
+    </span>
+  </button>
 
-    <!-- Lapor -->
-    <a href="https://laporgub.jatengprov.go.id/" target="_blank" title="Lapor"
-       class="relative w-20 h-20 rounded-full flex items-center justify-center bg-white/20 backdrop-blur-md shadow-lg border border-white/30 transition-transform duration-300 hover:scale-110 hover:shadow-xl group">
-        <img src="{{ asset('images/lapor.png') }}" alt="Lapor" class="h-10 w-10 transition-transform duration-500 group-hover:rotate-12">
-        <span class="absolute left-[-150%] top-1/2 -translate-y-1/2 bg-gray-900/90 text-white text-sm font-semibold px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg">
-            Lapor
-        </span>
-    </a>
+  <!-- Wadul Bupati -->
+  <a href="https://wadul.jepara.go.id/" target="_blank" title="Wadul Bupati"
+     class="relative w-20 h-20 rounded-full flex items-center justify-center 
+            bg-white/20 backdrop-blur-md shadow-lg border border-white/30 
+            transition-transform duration-300 hover:scale-110 hover:shadow-xl group">
+    <img src="{{ asset('images/wadulbupati.png') }}" alt="Wadul Bupati" 
+         class="h-10 w-10 transition-transform duration-500 group-hover:rotate-12">
+    <span class="absolute left-[-150%] top-1/2 -translate-y-1/2 
+                 bg-gray-900/90 text-white text-sm font-semibold px-3 py-1 
+                 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg">
+      Wadul Bupati
+    </span>
+  </a>
+
+  <!-- Lapor -->
+  <a href="https://laporgub.jatengprov.go.id/" target="_blank" title="Lapor"
+     class="relative w-20 h-20 rounded-full flex items-center justify-center 
+            bg-white/20 backdrop-blur-md shadow-lg border border-white/30 
+            transition-transform duration-300 hover:scale-110 hover:shadow-xl group">
+    <img src="{{ asset('images/lapor.png') }}" alt="Lapor" 
+         class="h-10 w-10 transition-transform duration-500 group-hover:rotate-12">
+    <span class="absolute left-[-150%] top-1/2 -translate-y-1/2 
+                 bg-gray-900/90 text-white text-sm font-semibold px-3 py-1 
+                 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg">
+      Lapor
+    </span>
+  </a>
 </div>
 
-<!-- Tailwind Custom Animation -->
+<!-- Accessibility Menu -->
+<div id="toolbar-menu" 
+     class="fixed bottom-28 right-28 bg-white dark:bg-gray-800 shadow-2xl 
+            rounded-2xl p-4 w-72 space-y-2 z-[9999] 
+            opacity-0 scale-95 pointer-events-none 
+            transition-all duration-300">
+
+  <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3 border-b pb-2">
+    Difabel Tools
+  </h3>
+
+  <button onclick="increaseText()" 
+          class="w-full p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-left 
+                 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">🔍 Perbesar Teks</button>
+
+  <button onclick="decreaseText()" 
+          class="w-full p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-left 
+                 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">🔎 Perkecil Teks</button>
+
+  <button onclick="readableFont()" 
+          class="w-full p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-left 
+                 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">📖 Font Mudah Dibaca</button>
+
+  <button onclick="toggleGrayscale()" 
+          class="w-full p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-left 
+                 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">⚫ Grayscale</button>
+
+  <button onclick="toggleHighContrast()" 
+          class="w-full p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-left 
+                 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">🌗 Kontras Tinggi</button>
+
+  <button onclick="toggleNegative()" 
+          class="w-full p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-left 
+                 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">🌑 Kontras Negatif</button>
+
+  <button onclick="lightBackground()" 
+          class="w-full p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-left 
+                 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">☀️ Latar Terang</button>
+
+  <button onclick="underlineLinks()" 
+          class="w-full p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-left 
+                 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white">🔗 Garisbawahi Link</button>
+
+  <button onclick="resetAccessibility()" 
+          class="w-full p-2 rounded-lg bg-red-500 text-white hover:bg-red-600 text-left">♻️ Reset</button>
+</div>
+
+<script>
+  const toggleToolbar = document.getElementById("toggle-toolbar");
+  const toolbarMenu = document.getElementById("toolbar-menu");
+
+  toggleToolbar.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toolbarMenu.classList.toggle("opacity-0");
+    toolbarMenu.classList.toggle("scale-95");
+    toolbarMenu.classList.toggle("pointer-events-none");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!toolbarMenu.contains(e.target) && !toggleToolbar.contains(e.target)) {
+      toolbarMenu.classList.add("opacity-0", "scale-95", "pointer-events-none");
+    }
+  });
+
+  // ================== Fungsi Aksesibilitas ==================
+  let currentFontSize = 100;
+
+  function increaseText() {
+    currentFontSize += 10;
+    document.body.style.fontSize = currentFontSize + "%";
+  }
+
+  function decreaseText() {
+    currentFontSize -= 10;
+    if (currentFontSize < 50) currentFontSize = 50;
+    document.body.style.fontSize = currentFontSize + "%";
+  }
+
+  function readableFont() {
+    document.body.style.fontFamily = "'Arial','Verdana',sans-serif";
+  }
+
+  function toggleGrayscale() {
+    document.body.classList.toggle("grayscale");
+  }
+
+  function toggleHighContrast() {
+    document.body.classList.toggle("high-contrast");
+  }
+
+  function toggleNegative() {
+    document.body.classList.toggle("negative-contrast");
+  }
+
+  function lightBackground() {
+    document.body.style.backgroundColor = "#ffffff";
+    document.body.style.color = "#000000";
+  }
+
+  function underlineLinks() {
+    document.querySelectorAll("a").forEach(a => {
+      a.style.textDecoration = "underline";
+    });
+  }
+
+  function resetAccessibility() {
+    currentFontSize = 100;
+    document.body.style.fontSize = "100%";
+    document.body.style.fontFamily = "";
+    document.body.style.backgroundColor = "";
+    document.body.style.color = "";
+    document.body.classList.remove("grayscale", "high-contrast", "negative-contrast");
+    document.querySelectorAll("a").forEach(a => {
+      a.style.textDecoration = "";
+    });
+  }
+</script>
+
 <style>
-@keyframes bounce-slow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-.animate-bounce-slow {
-  animation: bounce-slow 2s infinite;
-}
+  .grayscale { filter: grayscale(100%); }
+  .high-contrast { background-color:#000 !important; color:#fff !important; }
+  .negative-contrast { filter: invert(100%) hue-rotate(180deg); }
 </style>

@@ -26,7 +26,7 @@
                 puji syukur kita panjatkan ke hadirat Allah SWT atas limpahan rahmat dan karunia-Nya.
                 Pemerintah Kabupaten Jepara terus berupaya menghadirkan pelayanan publik yang transparan,
                 akuntabel, dan mudah diakses melalui portal resmi
-                <strong class="text-red-600">www.jeparakab.go.id</strong>.
+                <strong class="text-red-600">jepara.go.id</strong>.
             </p>
             <p class="leading-relaxed text-gray-700 dark:text-gray-300">
                 Portal ini menjadi wadah informasi, dokumentasi, serta sarana komunikasi

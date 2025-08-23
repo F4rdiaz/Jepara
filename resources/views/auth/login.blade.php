@@ -1,47 +1,79 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.auth')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('title', 'Login - Diskominfo Jepara')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+@section('content')
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-700 to-blue-500 px-4">
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
+        
+        {{-- Bagian Kiri: Gambar --}}
+        <div class="hidden lg:flex w-1/2 bg-gray-100 relative">
+            <img src="{{ asset('images/login-bg.jpg') }}" 
+                 alt="Diskominfo Jepara" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-blue-900 bg-opacity-40 flex items-center justify-center">
+                <img src="{{ asset('images/logo-jepara.png') }}" 
+                     alt="Logo Diskominfo Jepara" 
+                     class="h-28 w-28">
+            </div>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        {{-- Bagian Kanan: Form Login --}}
+        <div class="w-full lg:w-1/2 p-8 lg:p-12 flex items-center justify-center">
+            <div class="w-full">
+                <h2 class="text-3xl font-bold text-center text-gray-800">Selamat Datang</h2>
+                <p class="text-center text-gray-500 mt-2 mb-6">Silakan login untuk melanjutkan</p>
+                
+                <!-- Form Login -->
+                <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                    @csrf
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                               class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                        @error('email')
+                            <span class="text-sm text-red-500">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input id="password" type="password" name="password" required
+                               class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                        @error('password')
+                            <span class="text-sm text-red-500">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    <div class="flex items-center">
+                        <input id="remember_me" type="checkbox" name="remember"
+                               class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <label for="remember_me" class="ml-2 block text-sm text-gray-600">Ingat saya</label>
+                    </div>
+
+                    <div class="flex flex-col space-y-3">
+                        <button type="submit"
+                                class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md">
+                            Login
+                        </button>
+
+                        @if (Route::has('password.request'))
+                            <a class="text-sm text-blue-600 hover:underline text-center"
+                               href="{{ route('password.request') }}">
+                                Lupa Password?
+                            </a>
+                        @endif
+                    </div>
+                </form>
+
+                @if (Route::has('register'))
+                <p class="text-center text-sm text-gray-600 mt-6">
+                    Belum punya akun?
+                    <a href="{{ route('register') }}" class="font-semibold text-blue-600 hover:underline">Daftar</a>
+                </p>
+                @endif
+            </div>
         </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+</div>
+@endsection

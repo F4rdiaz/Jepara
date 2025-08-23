@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'role')) {
-                $table->string('role')->default('user');
-            }
+        Schema::table('beritas', function (Blueprint $table) {
+            $table->text('isi')->after('judul'); // menambahkan kolom isi setelah judul
         });
     }
 
@@ -23,10 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            if (Schema::hasColumn('users', 'role')) {
-                $table->dropColumn('role');
-            }
+        Schema::table('beritas', function (Blueprint $table) {
+            $table->dropColumn('isi');
         });
     }
 };
