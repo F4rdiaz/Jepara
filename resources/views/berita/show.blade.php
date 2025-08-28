@@ -1,68 +1,66 @@
 @extends('layouts.app')
 
-@section('title', 'Berita Terkini')
+@section('title', $berita->judul)
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <!-- Judul -->
-    <div class="text-center mb-10">
-        <h1 class="text-4xl font-bold text-gray-800 mb-3">Berita Terkini</h1>
-        <p class="text-gray-600 text-lg">Informasi terbaru yang selalu update untuk masyarakat Jepara</p>
-    </div>
+<div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-10 grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-    <!-- Pencarian -->
-    <div class="mb-8">
-        <form method="GET" action="{{ route('news.index') }}" class="flex items-center gap-3">
-            <input 
-                type="text" 
-                name="search" 
-                value="{{ request('search') }}" 
-                placeholder="Cari berita..." 
-                class="flex-1 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            >
-            <button 
-                type="submit" 
-                class="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition">
-                Cari
-            </button>
-        </form>
-    </div>
+    {{-- ISI BERITA --}}
+    <article class="lg:col-span-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-snug">
+            {{ $berita->judul }}
+        </h1>
 
-    <!-- Grid Berita -->
-    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        @forelse($news as $item)
-            <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition overflow-hidden">
-                <a href="{{ route('news.show', $item->id) }}">
-                    <!-- Gambar -->
-                    <img src="{{ asset('storage/'.$item->image) }}" 
-                        alt="{{ $item->title }}" 
-                        class="w-full h-56 object-cover">
-                    
-                    <!-- Konten -->
-                    <div class="p-5">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-3 hover:text-blue-600 transition">
-                            {{ Str::limit($item->title, 60) }}
-                        </h2>
-                        <p class="text-gray-600 text-sm mb-4">
-                            {{ Str::limit($item->excerpt, 100) }}
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+            {{ \Carbon\Carbon::parse($berita->created_at)->translatedFormat('d F Y') }} •
+            Kategori: <span class="capitalize">{{ $berita->kategori }}</span>
+        </p>
+
+        {{-- Gambar --}}
+        @if($berita->gambar)
+            <div class="mb-6 rounded-xl overflow-hidden shadow">
+                <img src="{{ asset('storage/'.$berita->gambar) }}" 
+                     alt="{{ $berita->judul }}" 
+                     class="w-full h-auto object-cover">
+            </div>
+        @endif
+
+        {{-- Isi konten --}}
+        <div class="prose dark:prose-invert max-w-none text-justify leading-relaxed">
+            {!! nl2br(e($berita->konten)) !!}
+        </div>
+    </article>
+
+    {{-- SIDEBAR --}}
+    <aside class="lg:col-span-4 space-y-8">
+        <div class="bg-white dark:bg-gray-800 shadow rounded-2xl p-6">
+            <h3 class="font-bold text-lg mb-5 text-gray-900 dark:text-gray-100">
+                Berita <span class="text-blue-600">Populer</span>
+            </h3>
+
+            @forelse($populer as $p)
+                <a href="{{ route('berita.show', $p) }}" class="flex gap-3 mb-4 group">
+                    <div class="w-24 h-16 rounded-md overflow-hidden bg-gray-200 dark:bg-gray-700 shrink-0">
+                        @if($p->gambar)
+                            <img src="{{ asset('storage/'.$p->gambar) }}" 
+                                 alt="{{ $p->judul }}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition">
+                        @endif
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold leading-snug text-gray-900 dark:text-gray-100 group-hover:underline line-clamp-2">
+                            {{ $p->judul }}
+                        </h4>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            {{ \Carbon\Carbon::parse($p->created_at)->translatedFormat('d M Y') }}
                         </p>
-                        <div class="flex items-center justify-between text-gray-500 text-xs">
-                            <span>{{ $item->created_at->format('d M Y') }}</span>
-                            <span>Baca selengkapnya →</span>
-                        </div>
                     </div>
                 </a>
-            </div>
-        @empty
-            <div class="col-span-full text-center text-gray-500">
-                Tidak ada berita yang ditemukan.
-            </div>
-        @endforelse
-    </div>
+            @empty
+                <p class="text-sm text-gray-500 dark:text-gray-400">Belum ada berita populer.</p>
+            @endforelse
+        </div>
+    </aside>
 
-    <!-- Pagination -->
-    <div class="mt-10">
-        {{ $news->links('pagination::tailwind') }}
-    </div>
 </div>
 @endsection

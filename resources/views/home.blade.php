@@ -2,21 +2,31 @@
 
 @section('content')
 <!-- Hero Section -->
-<div class="relative bg-cover bg-center h-[500px] md:h-[600px] lg:h-[700px]" style="background-image: url('{{ asset('images/jepara.png') }}')">
+<div 
+    class="relative h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden group"
+    style="background-image: url('{{ asset('images/jepara.png') }}'); background-size: cover; background-position: center;"
+>
     <!-- Overlay -->
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
 
+    <!-- Animated Background -->
+    <div 
+        class="absolute inset-0 bg-cover bg-center scale-110 animate-zoom-slow"
+        style="background-image: url('{{ asset('images/jepara.png') }}');"
+    ></div>
+
     <!-- Content -->
     <div class="relative z-10 flex flex-col justify-center items-center h-full text-center px-6 md:px-12">
-        <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 drop-shadow-lg">
+        <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 drop-shadow-lg animate-fade-up">
             Selamat Datang Website Resmi Kabupaten Jepara
         </h1>
-        <p class="text-md md:text-lg lg:text-xl text-gray-200 max-w-3xl mb-8 drop-shadow-md">
+        
+        <p class="text-md md:text-lg lg:text-xl text-gray-200 max-w-3xl mb-8 drop-shadow-md animate-fade-up delay-200">
             Jelajahi keindahan dan budaya Jepara, dari seni ukir khas hingga destinasi wisata memikat.
         </p>
 
         <!-- Search Box -->
-        <form action="{{ route('search') }}" method="GET" class="w-full max-w-md flex shadow-lg rounded-lg overflow-hidden">
+        <form action="{{ route('search') }}" method="GET" class="w-full max-w-md flex shadow-lg rounded-lg overflow-hidden animate-fade-up delay-300">
             <input 
                 type="text" 
                 name="query" 
@@ -32,6 +42,35 @@
         </form>
     </div>
 </div>
+
+<!-- Animations -->
+<style>
+@keyframes zoomSlow {
+  0% { transform: scale(1.1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1.1); }
+}
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-zoom-slow {
+  animation: zoomSlow 20s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fadeUp 1s ease-out forwards;
+}
+
+.animate-fade-up.delay-200 {
+  animation-delay: 0.2s;
+}
+.animate-fade-up.delay-300 {
+  animation-delay: 0.3s;
+}
+</style>
+
 
 <!-- Layanan Jepara Digital -->
 <div class="max-w-7xl mx-auto px-6 py-12">

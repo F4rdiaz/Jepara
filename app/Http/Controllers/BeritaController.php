@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
@@ -17,20 +17,19 @@ class BeritaController extends Controller
     ];
 
     /**
-     * LISTING PUBLIC: filter kategori + search + pagination
-     * GET /berita?kategori=...&search=...
+     * LISTING PUBLIC
      */
     public function index(Request $request)
     {
         $query = Berita::query();
 
-        // Filter kategori (abaikan jika 'semua' atau kosong)
+        // Filter kategori
         $kategori = $request->query('kategori', 'semua');
         if (in_array($kategori, self::KATEGORI, true)) {
             $query->where('kategori', $kategori);
         }
 
-        // Search by judul
+        // Search
         $search = trim((string) $request->query('search', ''));
         if ($search !== '') {
             $query->where('judul', 'like', "%{$search}%");
@@ -45,17 +44,20 @@ class BeritaController extends Controller
 
     /**
      * DETAIL PUBLIC
-     * GET /berita/{berita}
-     * (Gunakan route model binding di routes)
      */
     public function show(Berita $berita)
     {
-        return view('berita.show', compact('berita'));
+        // Ambil 5 berita populer selain yang sedang dibuka
+        $populer = Berita::orderByDesc('created_at')
+            ->where('id', '!=', $berita->id)
+            ->take(5)
+            ->get();
+
+        return view('berita.show', compact('berita', 'populer'));
     }
 
     /**
      * FORM CREATE (ADMIN)
-     * GET /admin/berita/create
      */
     public function create()
     {
@@ -65,7 +67,6 @@ class BeritaController extends Controller
 
     /**
      * SIMPAN DATA (ADMIN)
-     * POST /admin/berita
      */
     public function store(Request $request)
     {
@@ -73,7 +74,7 @@ class BeritaController extends Controller
             'judul'    => ['required', 'string', 'max:255'],
             'kategori' => ['required', Rule::in(self::KATEGORI)],
             'konten'   => ['required', 'string'],
-            'gambar'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:3072'], // 3MB
+            'gambar'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:3072'],
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -89,7 +90,6 @@ class BeritaController extends Controller
 
     /**
      * FORM EDIT (ADMIN)
-     * GET /admin/berita/{berita}/edit
      */
     public function edit(Berita $berita)
     {
@@ -99,7 +99,6 @@ class BeritaController extends Controller
 
     /**
      * UPDATE DATA (ADMIN)
-     * PUT/PATCH /admin/berita/{berita}
      */
     public function update(Request $request, Berita $berita)
     {
@@ -107,11 +106,10 @@ class BeritaController extends Controller
             'judul'    => ['required', 'string', 'max:255'],
             'kategori' => ['required', Rule::in(self::KATEGORI)],
             'konten'   => ['required', 'string'],
-            'gambar'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:3072'], // 3MB
+            'gambar'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:3072'],
         ]);
 
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
             if ($berita->gambar) {
                 Storage::disk('public')->delete($berita->gambar);
             }
@@ -127,7 +125,6 @@ class BeritaController extends Controller
 
     /**
      * HAPUS DATA (ADMIN)
-     * DELETE /admin/berita/{berita}
      */
     public function destroy(Berita $berita)
     {
